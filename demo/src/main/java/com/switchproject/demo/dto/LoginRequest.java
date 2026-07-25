@@ -1,6 +1,10 @@
 package com.switchproject.demo.dto;
 
 public class LoginRequest {
+
+    private String email;
+    private String password;
+
     public String getEmail() {
         return email;
     }
@@ -17,6 +21,4 @@ public class LoginRequest {
         this.password = password;
     }
 
-    private String email;
-    private String password;
 }

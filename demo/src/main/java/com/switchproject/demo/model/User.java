@@ -2,6 +2,7 @@ package com.switchproject.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.springframework.aot.generate.GeneratedMethod;
 
 @Entity
@@ -11,6 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @Email
     private String email;
 
     public Long getId() {
