@@ -42,11 +42,11 @@ public class UserService {
                             .body("Email Already Exists");
                 }
                 User newUser = new User();
-    
+
                 newUser.setUsername(user.getUsername());
                 newUser.setEmail(user.getEmail());
                 newUser.setPassword(
-                        passwordEncoder.encode(user.getPassword())
+                        passwordEncoder.encode(user.getPassword())//changed
                 );
 
                 userRepo.save(newUser);
