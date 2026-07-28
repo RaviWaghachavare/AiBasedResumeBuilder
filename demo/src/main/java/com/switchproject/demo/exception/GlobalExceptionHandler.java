@@ -29,4 +29,34 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+
+    public class UserNotFoundException extends RuntimeException {
+
+        public UserNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+
+    public static class InvalidCredentialException extends RuntimeException {
+
+        public InvalidCredentialException(String message) {
+            super(message);
+        }
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException ex) {
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
 }

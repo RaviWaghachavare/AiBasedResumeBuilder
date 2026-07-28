@@ -3,6 +3,8 @@ package com.switchproject.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.aot.generate.GeneratedMethod;
 
 @Entity
@@ -11,9 +13,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Username is required")
     private String username;
-    @Email
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please enter a valid email")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, max = 200,
+            message = "Password must be between 8 and 20 characters")
+    private String password;
 
     public Long getId() {
         return id;
@@ -47,6 +58,5 @@ public class User {
         this.password = password;
     }
 
-    //@JsonIgnore
-    private String password;
+
 }

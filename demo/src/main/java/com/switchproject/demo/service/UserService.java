@@ -2,15 +2,16 @@ package com.switchproject.demo.service;
 
 import com.switchproject.demo.dto.LoginRequest;
 import com.switchproject.demo.dto.LoginResponse;
+import com.switchproject.demo.dto.RegisterRequest;
+import com.switchproject.demo.exception.GlobalExceptionHandler;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.UserRepository;
 import com.switchproject.demo.security.JwtUtil;
-import org.apache.tomcat.util.http.ResponseUtil;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,22 +34,26 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> register(User user) {
+    public ResponseEntity<String> register(@Valid RegisterRequest user) {
             try {
                 if (userRepo.findByEmail(user.getEmail()).isPresent()) {
                     return ResponseEntity
                             .status(HttpStatus.CONFLICT)
                             .body("Email Already Exists");
                 }
-                user.setPassword(
+                User newUser = new User();
+    
+                newUser.setUsername(user.getUsername());
+                newUser.setEmail(user.getEmail());
+                newUser.setPassword(
                         passwordEncoder.encode(user.getPassword())
                 );
-                userRepo.save(user);
+
+                userRepo.save(newUser);
                 return ResponseEntity.ok("Registration Successful");
-            }catch(Exception e){
-                return ResponseEntity
-                        .internalServerError()
-                        .body("Something went wrong");
+            }catch (Exception e) {
+                e.printStackTrace();
+                throw e;
             }
         }
 
@@ -64,7 +69,7 @@ public class UserService {
             String token = jwtUtil.generateToken(user.get().getEmail());
             return ResponseEntity.ok(new LoginResponse(token));
         }
-        throw new RuntimeException("Invalid Credential");
+        throw new GlobalExceptionHandler.InvalidCredentialException("Invalid Credential");
     }
 
 
@@ -75,7 +80,7 @@ public class UserService {
 
     public User updateUser(Long id, User user){
 
-        User existing = userRepo.findById(id).orElseThrow(() -> new RuntimeException("user not found with id"+ id));
+        User existing = userRepo.findById(id).orElseThrow(() -> new RuntimeException("user not found with id "+ id));
         existing.setUsername(user.getUsername());
         existing.setPassword(user.getPassword());
         existing.setEmail(user.getEmail());
@@ -88,4 +93,3 @@ public class UserService {
     }
     }
 
-    

@@ -2,6 +2,7 @@
 
     import com.switchproject.demo.dto.LoginRequest;
     import com.switchproject.demo.dto.LoginResponse;
+    import com.switchproject.demo.dto.RegisterRequest;
     import com.switchproject.demo.model.User;
     import com.switchproject.demo.service.UserService;
     import org.apache.coyote.Response;
@@ -12,6 +13,7 @@
     import org.springframework.http.ResponseEntity;
     import java.util.List;
     import java.util.Optional;
+    import jakarta.validation.Valid;
 
     @RestController
     public class ProjectController {
@@ -23,13 +25,13 @@
             this.userService = userService;
         }
 
+
         @PostMapping("/register")
-        public ResponseEntity<String> register(@RequestBody User user){
-            return userService.register(user);
-            }
+        public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request){
+            return userService.register(request);
+        }
 
-
-        @PutMapping("/user/{id}")
+        @PutMapping("/updateuser/{id}")
         public User updateUser(@PathVariable Long id, @RequestBody User user){
 
             User updateuser = userService.updateUser(id, user);
