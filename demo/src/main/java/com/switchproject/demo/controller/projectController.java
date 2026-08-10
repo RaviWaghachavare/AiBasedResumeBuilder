@@ -29,7 +29,7 @@ public class projectController {
                 passwordEncoder.encode(user.getPassword())
         );
         userRepo.save(user);
-        return "Registration Successfully...!!!";
+        return "Registration Successful👍...!!!";
     }
 
     @PostMapping("/login")
