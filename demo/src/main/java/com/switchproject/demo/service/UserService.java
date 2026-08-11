@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.switchproject.demo.dto.UserResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,8 +73,18 @@ public class UserService {
     }
 
 
-    public ResponseEntity<List<User>> allUsers(){
-        return ResponseEntity.ok(userRepo.findAll());
+    public ResponseEntity<List<UserResponse>> allUsers() {
+
+        List<UserResponse> users = userRepo.findAll()
+                .stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getEmail()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(users);
     }
 
 

@@ -3,6 +3,7 @@
     import com.switchproject.demo.dto.LoginRequest;
     import com.switchproject.demo.dto.LoginResponse;
     import com.switchproject.demo.dto.RegisterRequest;
+    import com.switchproject.demo.dto.UserResponse;
     import com.switchproject.demo.model.User;
     import com.switchproject.demo.service.UserService;
     import org.apache.coyote.Response;
@@ -44,7 +45,7 @@
         }
 
         @GetMapping("/users/all")
-        public ResponseEntity<List<User>> getAllUsers(){
+        public ResponseEntity<List<UserResponse>> getAllUsers(){
             return userService.allUsers();
         }
 
