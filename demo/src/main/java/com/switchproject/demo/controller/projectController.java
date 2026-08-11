@@ -67,6 +67,12 @@ public class projectController {
                 .orElseThrow(()-> new RuntimeException("User Not Found By Id"));
     }
 
+
+    @GetMapping("/users/{id}")
+    public  user getById(@PathVariable Long id){
+return userService.getUserById();
+    }
+
     @DeleteMapping("/users/{id}")
     public String deleteById(@PathVariable Long id){
         userRepo.deleteById(id);
