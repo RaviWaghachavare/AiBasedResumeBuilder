@@ -49,8 +49,10 @@
             return userService.allUsers();
         }
 
+
+
         @GetMapping("/user/{id}")
-        public User getUserById(@PathVariable Long id){
+        public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
             return userService.getUserById(id);
         }
 
