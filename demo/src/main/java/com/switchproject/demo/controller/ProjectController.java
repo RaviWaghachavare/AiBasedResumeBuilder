@@ -1,9 +1,6 @@
     package com.switchproject.demo.controller;
 
-    import com.switchproject.demo.dto.LoginRequest;
-    import com.switchproject.demo.dto.LoginResponse;
-    import com.switchproject.demo.dto.RegisterRequest;
-    import com.switchproject.demo.dto.UserResponse;
+    import com.switchproject.demo.dto.*;
     import com.switchproject.demo.model.User;
     import com.switchproject.demo.service.UserService;
     import org.apache.coyote.Response;
@@ -14,6 +11,8 @@
     import org.springframework.http.ResponseEntity;
     import java.util.List;
     import java.util.Optional;
+    import jakarta.validation.Valid;
+    import com.switchproject.demo.dto.UpdateUserRequest;
     import jakarta.validation.Valid;
 
     @RestController
@@ -32,11 +31,12 @@
             return userService.register(request);
         }
 
-        @PutMapping("/updateuser/{id}")
-        public User updateUser(@PathVariable Long id, @RequestBody User user){
+        @PutMapping("/user/{id}")
+        public User updateUser(
+                @PathVariable Long id,
+                @Valid @RequestBody UpdateUserRequest request) {
 
-            User updateuser = userService.updateUser(id, user);
-            return updateuser;
+            return userService.updateUser(id, request);
         }
 
         @PostMapping("/login")

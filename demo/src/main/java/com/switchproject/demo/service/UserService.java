@@ -1,14 +1,12 @@
 package com.switchproject.demo.service;
 
-import com.switchproject.demo.dto.LoginRequest;
-import com.switchproject.demo.dto.LoginResponse;
-import com.switchproject.demo.dto.RegisterRequest;
-import com.switchproject.demo.dto.UserResponse;
+import com.switchproject.demo.dto.*;
 import com.switchproject.demo.exception.InvalidCredentialException;
 import com.switchproject.demo.exception.UserNotFoundException;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.UserRepository;
 import com.switchproject.demo.security.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -128,7 +126,7 @@ public class UserService {
 
     // ================= UPDATE USER =================
 
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long id, @Valid UpdateUserRequest user) {
 
         User existing = userRepo.findById(id)
                 .orElseThrow(() ->
