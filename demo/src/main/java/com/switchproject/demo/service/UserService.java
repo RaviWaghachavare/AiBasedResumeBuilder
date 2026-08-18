@@ -8,6 +8,7 @@ import com.switchproject.demo.repository.UserRepository;
 import com.switchproject.demo.security.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import com.switchproject.demo.dto.UpdateUserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -126,7 +127,9 @@ public class UserService {
 
     // ================= UPDATE USER =================
 
-    public User updateUser(Long id, @Valid UpdateUserRequest user) {
+
+
+    public User updateUser(Long id, UpdateUserRequest request) {
 
         User existing = userRepo.findById(id)
                 .orElseThrow(() ->
@@ -135,11 +138,11 @@ public class UserService {
                         )
                 );
 
-        existing.setUsername(user.getUsername());
-        existing.setEmail(user.getEmail());
+        existing.setUsername(request.getUsername());
+        existing.setEmail(request.getEmail());
 
         existing.setPassword(
-                passwordEncoder.encode(user.getPassword())
+                passwordEncoder.encode(request.getPassword())
         );
 
         return userRepo.save(existing);
