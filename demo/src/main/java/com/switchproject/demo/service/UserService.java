@@ -129,7 +129,9 @@ public class UserService {
 
 
 
-    public User updateUser(Long id, UpdateUserRequest request) {
+    public ResponseEntity<UserResponse> updateUser(
+            Long id,
+            UpdateUserRequest request) {
 
         User existing = userRepo.findById(id)
                 .orElseThrow(() ->
@@ -145,6 +147,32 @@ public class UserService {
                 passwordEncoder.encode(request.getPassword())
         );
 
-        return userRepo.save(existing);
+        User updatedUser = userRepo.save(existing);
+
+        UserResponse response = new UserResponse(
+                updatedUser.getId(),
+                updatedUser.getUsername(),
+                updatedUser.getEmail()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    // ================= UPDATE USER =================
+
+
+
+    public ResponseEntity<String> deleteUserById(Long id) {
+
+        if (!userRepo.existsById(id)) {
+            throw new UserNotFoundException(
+                    "User not found with id " + id
+            );
+        }
+
+        userRepo.deleteById(id);
+
+        return ResponseEntity.ok("User deleted successfully...!!!!");
     }
 }

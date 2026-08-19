@@ -11,6 +11,9 @@
     import org.springframework.http.ResponseEntity;
     import java.util.List;
     import java.util.Optional;
+    import com.switchproject.demo.dto.UpdateUserRequest;
+    import com.switchproject.demo.dto.UserResponse;
+    import jakarta.validation.Valid;
     import jakarta.validation.Valid;
     import com.switchproject.demo.dto.UpdateUserRequest;
     import jakarta.validation.Valid;
@@ -32,7 +35,7 @@
         }
 
         @PutMapping("/user/{id}")
-        public User updateUser(
+        public ResponseEntity<UserResponse> updateUser(
                 @PathVariable Long id,
                 @Valid @RequestBody UpdateUserRequest request) {
 
@@ -54,6 +57,11 @@
         @GetMapping("/user/{id}")
         public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
             return userService.getUserById(id);
+        }
+
+        @DeleteMapping("/delete/user/{id}")
+        public ResponseEntity<String> deleteUserById(@PathVariable Long id){
+            return userService.deleteUserById(id);
         }
 
 
