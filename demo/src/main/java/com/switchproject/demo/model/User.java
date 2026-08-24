@@ -27,6 +27,14 @@ public class User {
             message = "Password must be between 8 and 20 characters")
         private String password;
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
