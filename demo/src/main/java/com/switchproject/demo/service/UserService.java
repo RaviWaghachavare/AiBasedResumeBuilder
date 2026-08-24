@@ -173,6 +173,6 @@ public class UserService {
 
         userRepo.deleteById(id);
 
-        return ResponseEntity.ok("User deleted successfully...!!!!");
+        return ResponseEntity.ok("User deleted successfully...!!!!!");
     }
 }
