@@ -25,13 +25,27 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register", "/public/**").permitAll()
+                        .requestMatchers(
+                                "/login",
+                                "/register",
+                                "/public/**"
+                        ).permitAll()
+
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/user/**")
+                        .hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class);
 
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
