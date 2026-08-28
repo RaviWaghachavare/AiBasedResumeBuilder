@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import com.switchproject.demo.model.Role;
 import org.springframework.aot.generate.GeneratedMethod;
 
 @Entity
@@ -24,7 +25,18 @@ public class User {
     @NotBlank(message = "Password is required")
     @Size(min = 8, max = 200,
             message = "Password must be between 8 and 20 characters")
-    private String password;
+        private String password;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;

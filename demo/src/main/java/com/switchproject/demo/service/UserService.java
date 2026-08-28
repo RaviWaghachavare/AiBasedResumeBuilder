@@ -3,6 +3,7 @@ package com.switchproject.demo.service;
 import com.switchproject.demo.dto.*;
 import com.switchproject.demo.exception.InvalidCredentialException;
 import com.switchproject.demo.exception.UserNotFoundException;
+import com.switchproject.demo.model.Role;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.UserRepository;
 import com.switchproject.demo.security.JwtUtil;
@@ -53,6 +54,7 @@ public class UserService {
         newUser.setPassword(
                 passwordEncoder.encode(request.getPassword())
         );
+        newUser.setRole(Role.USER);
 
         userRepo.save(newUser);
 
@@ -173,6 +175,6 @@ public class UserService {
 
         userRepo.deleteById(id);
 
-        return ResponseEntity.ok("User deleted successfully...!!!!");
+        return ResponseEntity.ok("User deleted successfully...!!!!!");
     }
 }
