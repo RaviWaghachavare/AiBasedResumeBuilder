@@ -1,18 +1,18 @@
 package com.switchproject.demo.dto;
 
 public class LoginResponse {
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return AccessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String accessToken) {
+        this.AccessToken = accessToken;
     }
 
-    private String token;
+    private String AccessToken;
 
     public LoginResponse(String token){
-        this.token = token;
+        this.AccessToken = token;
 
     }
 
