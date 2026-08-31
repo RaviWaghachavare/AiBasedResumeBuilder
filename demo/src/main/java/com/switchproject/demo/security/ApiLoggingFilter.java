@@ -88,8 +88,13 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
                     StandardCharsets.UTF_8
             );
 
-            apiLog.setRequestBody(requestBody);
-            apiLog.setResponseBody(responseBody);
+            apiLog.setRequestBody(
+                    maskPassword(requestBody)
+            );
+
+            apiLog.setResponseBody(
+                    maskToken(responseBody)
+            );
 
             // Logged-in user
             Authentication authentication =
@@ -122,5 +127,28 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
                             + " | Time: " + (endTime - startTime) + " ms"
             );
         }
+    }
+    private String maskPassword(String body) {
+
+        if (body == null || body.isEmpty()) {
+            return body;
+        }
+
+        return body.replaceAll(
+                "(\"password\"\\s*:\\s*\")[^\"]*(\")",
+                "$1********$2"
+        );
+    }
+
+    private String maskToken(String body) {
+
+        if (body == null || body.isEmpty()) {
+            return body;
+        }
+
+        return body.replaceAll(
+                "(\"token\"\\s*:\\s*\")[^\"]*(\")",
+                "$1[HIDDEN]$2"
+        );
     }
 }
