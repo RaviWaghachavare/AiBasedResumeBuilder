@@ -4,6 +4,7 @@ AI Based Resume Builder is a Spring Boot backend project for building and managi
 
 ## 🚀 Features
 
+
 - User Registration
 - User Login
 - JWT Authentication
@@ -59,5 +60,12 @@ Sensitive information such as passwords and JWT tokens is masked before being st
 
 ### 1. Clone the repository
 
+
 ```bash
 git clone git@github.com:RaviWaghachavare/AiBasedResumeBuilder.git
+```
+
+### CMD
+git clone git@github.com:RaviWaghachavare/AiBasedResumeBuilder.git
+
+
