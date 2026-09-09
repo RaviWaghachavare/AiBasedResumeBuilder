@@ -48,6 +48,8 @@ public class ApiLog {
         this.requestBody = requestBody;
     }
 
+
+
     public void setId(Long id) {
         this.id = id;
     }
