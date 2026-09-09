@@ -65,7 +65,7 @@ Sensitive information such as passwords and JWT tokens is masked before being st
 git clone git@github.com:RaviWaghachavare/AiBasedResumeBuilder.git
 ```
 
-### CMD
+### 🧑‍💻CMD
 git clone git@github.com:RaviWaghachavare/AiBasedResumeBuilder.git
 
 
