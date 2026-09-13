@@ -374,11 +374,11 @@ Manage resume sections
 
 Generate professional resumes
 
-Download resumes as PDF
+Download resumes as PDF.
 
-Improve resumes using AI
+Improve resumes using AI.
 
-Check ATS compatibility
+Check ATS compatibility.
 
 Match resumes against job descriptions
 
