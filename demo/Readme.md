@@ -133,7 +133,7 @@ private String password;
 
 Controllers use @Valid to trigger validation.
 
-⚠️ Global Exception Handling
+⚠️ Global Exception Handling...!
 
 The application uses @ControllerAdvice for centralized exception
 handling.
