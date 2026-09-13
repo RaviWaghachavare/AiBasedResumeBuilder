@@ -2,7 +2,7 @@ AI Based Resume Builder
 
 A Spring Boot backend project for building and managing resumes with
 secure authentication, role-based authorization, user management, API
-logging, and resume management.
+logging, and resume management...
 
 🚀 Project Overview
 
