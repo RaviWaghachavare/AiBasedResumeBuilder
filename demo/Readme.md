@@ -9,7 +9,7 @@ logging, and resume management...
 The goal of this project is to build a secure and scalable Resume
 Builder application where users can create and manage multiple resumes.
 The project is being developed step by step with a production-oriented
-backend architecture.
+backend architecture...
 
 🛠️ Technologies Used
 
