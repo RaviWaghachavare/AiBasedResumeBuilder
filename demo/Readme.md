@@ -11,7 +11,7 @@ Builder application where users can create and manage multiple resumes.
 The project is being developed step by step with a production-oriented
 backend architecture...
 
-🛠️ Technologies Used
+🛠️ Technologies Used ...!
 
 Java 17
 
