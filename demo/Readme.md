@@ -140,9 +140,9 @@ handling.
 
 Custom exceptions include:
 
-UserNotFoundException
+1) UserNotFoundException
 
-InvalidCredentialException
+2) InvalidCredentialException
 
 Validation errors are also returned through a common ErrorResponse
 structure.
@@ -151,7 +151,7 @@ structure.
 
 Every API request is logged into the MySQL api_logs table.
 
-The logger captures:
+1) The logger captures:
 
 Full URL
 
