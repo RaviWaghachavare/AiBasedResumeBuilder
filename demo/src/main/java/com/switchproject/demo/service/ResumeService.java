@@ -1,6 +1,7 @@
 package com.switchproject.demo.service;
 
 import com.switchproject.demo.dto.CreateResumeRequest;
+import com.switchproject.demo.dto.ResumeResponse;
 import com.switchproject.demo.model.Resume;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.ResumeRepository;
@@ -41,7 +42,7 @@ public class ResumeService {
         return resumeRepository.save(resume);
     }
 
-    public List<Resume> getMyResumes(Authentication authentication) {
+    public List<ResumeResponse> getMyResumes(Authentication authentication) {
 
         String email = authentication.getName();
 
@@ -49,6 +50,36 @@ public class ResumeService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
-        return resumeRepository.findByUserId(user.getId());
+        return resumeRepository.findByUserId(user.getId())
+                .stream()
+                .map(resume -> new ResumeResponse(
+                        resume.getId(),
+                        resume.getTitle()
+                ))
+                .toList();
+    }
+
+    public ResumeResponse getResumeById(
+            Long resumeId,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resume not found"));
+
+        if (!resume.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You are not authorized to access this resume");
+        }
+
+        return new ResumeResponse(
+                resume.getId(),
+                resume.getTitle()
+        );
     }
 }
