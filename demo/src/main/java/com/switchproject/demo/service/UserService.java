@@ -58,7 +58,7 @@ public class UserService {
 
         userRepo.save(newUser);
 
-        return ResponseEntity.ok("Registration Successful");
+        return ResponseEntity.ok("Registration Successful..!");
     }
 
 
