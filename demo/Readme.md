@@ -2,16 +2,16 @@ AI Based Resume Builder
 
 A Spring Boot backend project for building and managing resumes with
 secure authentication, role-based authorization, user management, API
-logging, and resume management.
+logging, and resume management...
 
 🚀 Project Overview
 
 The goal of this project is to build a secure and scalable Resume
 Builder application where users can create and manage multiple resumes.
 The project is being developed step by step with a production-oriented
-backend architecture.
+backend architecture...
 
-🛠️ Technologies Used
+🛠️ Technologies Used ...!
 
 Java 17
 
@@ -133,16 +133,16 @@ private String password;
 
 Controllers use @Valid to trigger validation.
 
-⚠️ Global Exception Handling
+⚠️ Global Exception Handling...!
 
 The application uses @ControllerAdvice for centralized exception
 handling.
 
 Custom exceptions include:
 
-UserNotFoundException
+1) UserNotFoundException
 
-InvalidCredentialException
+2) InvalidCredentialException
 
 Validation errors are also returned through a common ErrorResponse
 structure.
@@ -151,7 +151,7 @@ structure.
 
 Every API request is logged into the MySQL api_logs table.
 
-The logger captures:
+1) The logger captures:
 
 Full URL
 
@@ -374,11 +374,11 @@ Manage resume sections
 
 Generate professional resumes
 
-Download resumes as PDF
+Download resumes as PDF.
 
-Improve resumes using AI
+Improve resumes using AI.
 
-Check ATS compatibility
+Check ATS compatibility.
 
 Match resumes against job descriptions
 
