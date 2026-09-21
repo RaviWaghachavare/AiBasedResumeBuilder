@@ -1,6 +1,7 @@
 package com.switchproject.demo.service;
 
 import com.switchproject.demo.dto.CreateResumeRequest;
+import com.switchproject.demo.dto.ResumeResponse;
 import com.switchproject.demo.model.Resume;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.ResumeRepository;
@@ -41,7 +42,7 @@ public class ResumeService {
         return resumeRepository.save(resume);
     }
 
-    public List<Resume> getMyResumes(Authentication authentication) {
+    public List<ResumeResponse> getMyResumes(Authentication authentication) {
 
         String email = authentication.getName();
 
@@ -49,6 +50,12 @@ public class ResumeService {
                 .orElseThrow(() ->
                         new RuntimeException("User not found"));
 
-        return resumeRepository.findByUserId(user.getId());
+        return resumeRepository.findByUserId(user.getId())
+                .stream()
+                .map(resume -> new ResumeResponse(
+                        resume.getId(),
+                        resume.getTitle()
+                ))
+                .toList();
     }
 }

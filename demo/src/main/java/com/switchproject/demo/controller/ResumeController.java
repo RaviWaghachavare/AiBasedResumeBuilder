@@ -1,6 +1,7 @@
 package com.switchproject.demo.controller;
 
 import com.switchproject.demo.dto.CreateResumeRequest;
+import com.switchproject.demo.dto.ResumeResponse;
 import com.switchproject.demo.model.Resume;
 import com.switchproject.demo.service.ResumeService;
 import jakarta.validation.Valid;
@@ -20,8 +21,7 @@ public class ResumeController {
         this.resumeService = resumeService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Resume>> getMyResumes(
+    public ResponseEntity<List<ResumeResponse>> getMyResumes(
             Authentication authentication) {
 
         return ResponseEntity.ok(
