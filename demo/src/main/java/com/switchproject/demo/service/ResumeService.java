@@ -58,4 +58,28 @@ public class ResumeService {
                 ))
                 .toList();
     }
+
+    public ResumeResponse getResumeById(
+            Long resumeId,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resume not found"));
+
+        if (!resume.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You are not authorized to access this resume");
+        }
+
+        return new ResumeResponse(
+                resume.getId(),
+                resume.getTitle()
+        );
+    }
 }

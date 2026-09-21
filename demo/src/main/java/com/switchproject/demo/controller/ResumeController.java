@@ -28,6 +28,15 @@ public class ResumeController {
                 resumeService.getMyResumes(authentication)
         );
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<ResumeResponse> getResumeById(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        return ResponseEntity.ok(
+                resumeService.getResumeById(id, authentication)
+        );
+    }
     @PostMapping
     public ResponseEntity<Resume> createResume(
             @Valid @RequestBody CreateResumeRequest request,
