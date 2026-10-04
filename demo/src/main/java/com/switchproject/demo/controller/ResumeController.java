@@ -2,6 +2,7 @@ package com.switchproject.demo.controller;
 
 import com.switchproject.demo.dto.CreateResumeRequest;
 import com.switchproject.demo.dto.ResumeResponse;
+import com.switchproject.demo.dto.UpdateResumeRequest;
 import com.switchproject.demo.model.Resume;
 import com.switchproject.demo.service.ResumeService;
 import jakarta.validation.Valid;
@@ -44,6 +45,17 @@ public class ResumeController {
 
         return ResponseEntity.ok(
                 resumeService.createResume(request, authentication)
+        );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResumeResponse> updateResume(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateResumeRequest request,
+            Authentication authentication) {
+
+        return ResponseEntity.ok(
+                resumeService.updateResume(id, request, authentication)
         );
     }
 }

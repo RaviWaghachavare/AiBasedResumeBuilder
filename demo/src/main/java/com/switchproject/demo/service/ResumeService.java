@@ -3,6 +3,7 @@ package com.switchproject.demo.service;
 import com.switchproject.demo.dto.CreateResumeRequest;
 import com.switchproject.demo.dto.ResumeResponse;
 import com.switchproject.demo.model.Resume;
+import com.switchproject.demo.dto.UpdateResumeRequest;
 import com.switchproject.demo.model.User;
 import com.switchproject.demo.repository.ResumeRepository;
 import com.switchproject.demo.repository.UserRepository;
@@ -80,6 +81,35 @@ public class ResumeService {
         return new ResumeResponse(
                 resume.getId(),
                 resume.getTitle()
+        );
+    }
+    public ResumeResponse updateResume(
+            Long resumeId,
+            UpdateResumeRequest request,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resume not found"));
+
+        if (!resume.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException(
+                    "You are not authorized to update this resume");
+        }
+
+        resume.setTitle(request.getTitle());
+
+        Resume updatedResume = resumeRepository.save(resume);
+
+        return new ResumeResponse(
+                updatedResume.getId(),
+                updatedResume.getTitle()
         );
     }
 }
