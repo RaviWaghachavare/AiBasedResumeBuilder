@@ -100,7 +100,7 @@ public class ResumeService {
 
         if (!resume.getUser().getId().equals(user.getId())) {
             throw new RuntimeException(
-                    "You are not authorized to update this resume");
+                    "You are not authorized to update this resume ..!");
         }
 
         resume.setTitle(request.getTitle());
