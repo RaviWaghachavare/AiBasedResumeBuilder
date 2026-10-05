@@ -72,7 +72,7 @@ public class ResumeService {
 
         Resume resume = resumeRepository.findById(resumeId)
                 .orElseThrow(() ->
-                        new RuntimeException("Resume not found"));
+                        new RuntimeException("Resume not found !!!"));
 
         if (!resume.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("You are not authorized to access this resume !");
