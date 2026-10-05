@@ -68,7 +68,7 @@ public class ResumeService {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new RuntimeException("User not found..!"));
 
         Resume resume = resumeRepository.findById(resumeId)
                 .orElseThrow(() ->
