@@ -112,4 +112,26 @@ public class ResumeService {
                 updatedResume.getTitle()
         );
     }
+
+    public void deleteResume(
+            Long resumeId,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resume not found"));
+
+        if (!resume.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException(
+                    "You are not authorized to delete this resume");
+        }
+
+        resumeRepository.delete(resume);
+    }
 }

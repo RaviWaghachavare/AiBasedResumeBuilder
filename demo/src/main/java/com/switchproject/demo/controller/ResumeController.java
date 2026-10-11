@@ -58,4 +58,12 @@ public class ResumeController {
                 resumeService.updateResume(id, request, authentication)
         );
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteResume(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        resumeService.deleteResume(id, authentication);
+        return ResponseEntity.noContent().build();
+    }
 }
