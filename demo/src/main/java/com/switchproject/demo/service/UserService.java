@@ -23,6 +23,8 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final OtpService otpService;
 
     public UserService(UserRepository userRepo,
                        PasswordEncoder passwordEncoder,
@@ -86,6 +88,20 @@ public class UserService {
         throw new InvalidCredentialException(
                 "Invalid Credential"
         );
+    }
+
+    public UserService(
+            UserRepository userRepo,
+            PasswordEncoder passwordEncoder,
+            JwtUtil jwtUtil,
+            EmailService emailService,
+            OtpService otpService) {
+
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+        this.emailService = emailService;
+        this.otpService = otpService;
     }
 
 
