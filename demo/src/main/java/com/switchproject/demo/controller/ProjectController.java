@@ -9,7 +9,7 @@ import com.switchproject.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.switchproject.demo.dto.VerifyOtpRequest;
 import java.util.List;
 
 @RestController
@@ -27,7 +27,12 @@ public class ProjectController {
 
         return userService.register(request);
     }
+    @PostMapping("/verify-otp")
+    public ResponseEntity<String> verifyOtp(
+            @Valid @RequestBody VerifyOtpRequest request) {
 
+        return userService.verifyOtp(request);
+    }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> userLogin(
             @RequestBody LoginRequest request) {

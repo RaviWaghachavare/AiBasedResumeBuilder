@@ -13,7 +13,9 @@ import com.switchproject.demo.dto.UpdateUserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,33 +36,79 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
-
+    private final Map<String, PendingRegistration> pendingRegistrations =
+            new ConcurrentHashMap<>();
 
     // ================= REGISTER =================
 
     public ResponseEntity<String> register(RegisterRequest request) {
 
-        if (userRepo.findByEmail(request.getEmail()).isPresent()) {
+        String email = request.getEmail().trim().toLowerCase(Locale.ROOT);
 
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body("Email Already Exists");
+        if (userRepo.findByEmail(email).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Email already exists");
+        }
+
+        String otp = otpService.generateOtp(email);
+
+        PendingRegistration pending = new PendingRegistration(
+                request.getUsername(),
+                email,
+                passwordEncoder.encode(request.getPassword())
+        );
+
+        pendingRegistrations.put(email, pending);
+
+        try {
+            emailService.sendEmail(
+                    email,
+                    "AI Resume Builder - Email Verification OTP",
+                    "Your OTP is: " + otp
+                            + "\nThis OTP expires in 5 minutes."
+            );
+        } catch (Exception e) {
+            pendingRegistrations.remove(email);
+            otpService.verifyOtp(email, "000000");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unable to send OTP email. Please try again.");
+        }
+
+        return ResponseEntity.ok("OTP sent to your email. Please verify it.");
+    }
+
+    public ResponseEntity<String> verifyOtp(VerifyOtpRequest request) {
+
+        String email = request.getEmail().trim().toLowerCase(Locale.ROOT);
+
+        PendingRegistration pending = pendingRegistrations.get(email);
+
+        if (pending == null) {
+            return ResponseEntity.badRequest()
+                    .body("Registration not found or OTP expired");
+        }
+
+        if (!otpService.verifyOtp(email, request.getOtp())) {
+            return ResponseEntity.badRequest()
+                    .body("Invalid or expired OTP");
+        }
+
+        if (userRepo.findByEmail(email).isPresent()) {
+            pendingRegistrations.remove(email);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Email already exists");
         }
 
         User newUser = new User();
-
-        newUser.setUsername(request.getUsername());
-        newUser.setEmail(request.getEmail());
-
-        // Store only hashed password
-        newUser.setPassword(
-                passwordEncoder.encode(request.getPassword())
-        );
+        newUser.setUsername(pending.getUsername());
+        newUser.setEmail(pending.getEmail());
+        newUser.setPassword(pending.getEncodedPassword());
         newUser.setRole(Role.USER);
 
         userRepo.save(newUser);
+        pendingRegistrations.remove(email);
 
-        return ResponseEntity.ok("Registration Successful..!");
+        return ResponseEntity.ok("Registration successful! Please login.");
     }
 
 
