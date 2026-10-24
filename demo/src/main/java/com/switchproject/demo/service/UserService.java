@@ -28,14 +28,7 @@ public class UserService {
     private final EmailService emailService;
     private final OtpService otpService;
 
-    public UserService(UserRepository userRepo,
-                       PasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil) {
 
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
     private final Map<String, PendingRegistration> pendingRegistrations =
             new ConcurrentHashMap<>();
 
@@ -67,13 +60,21 @@ public class UserService {
                     "Your OTP is: " + otp
                             + "\nThis OTP expires in 5 minutes."
             );
-        } catch (Exception e) {
-            pendingRegistrations.remove(email);
-            otpService.verifyOtp(email, "000000");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unable to send OTP email. Please try again.");
-        }
+//        } catch (Exception e) {
+//            pendingRegistrations.remove(email);
+//            otpService.verifyOtp(email, "000000");
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Unable to send OTP email. Please try again.");
+//        }
 
+        } catch (Exception e) {
+                e.printStackTrace(); // Temporary debugging only
+
+                pendingRegistrations.remove(email);
+
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Unable to send OTP email. Please check backend logs.");
+            }
         return ResponseEntity.ok("OTP sent to your email. Please verify it.");
     }
 
